@@ -1,16 +1,14 @@
-package com.example.bamboohero.framework;
+package com.example.bamboohero.Game;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.this_is_framework.game.GameState;
+import com.example.bamboohero.framework.GameView;
 
 // 공유 변수들을 저장하는 클래스
 public class AppManager {
     private static AppManager s_instance;
-
-    public GameState m_gameState;
 
     // 오직 하나만 생성하자~~ (싱글톤 방식)
     public static AppManager getInstance(){
