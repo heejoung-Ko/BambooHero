@@ -16,6 +16,8 @@ public class DungeonState implements IState {
     public static final int STAGE_TYPE_CAVE = 1;
     public static final int STAGE_TYPE_CASTLE = 2;
 
+    Player player;
+
     @Override
     public void Init() {
 
@@ -45,5 +47,4 @@ public class DungeonState implements IState {
     public boolean onTouchEvent(MotionEvent event) {
         return false;
     }
-
 }
