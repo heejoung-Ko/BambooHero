@@ -16,7 +16,7 @@ public class DungeonState implements IState {
     public static final int STAGE_TYPE_CAVE = 1;
     public static final int STAGE_TYPE_CASTLE = 2;
 
-    Player player;
+    public Player player;
 
     @Override
     public void Init() {

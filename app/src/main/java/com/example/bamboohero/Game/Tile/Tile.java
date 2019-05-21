@@ -8,7 +8,7 @@ import com.example.bamboohero.framework.GraphicObject;
 public class Tile extends GraphicObject {
     public int posX_inTileMap;
     public int posY_inTileMap;
-    public int Coefficient; // 계수
+    public int coefficient; // 계수
 
     public Tile(Bitmap bitmap) {
         super(bitmap);

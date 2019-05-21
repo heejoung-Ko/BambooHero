@@ -52,7 +52,10 @@ public class Player extends SpriteAnimation {
         return mulCoefficients.get(nowMulCoefficient).get();
     }
 
-    public int getNowAddCoefficient(){
+    public int getSumCoefficient(){
         return addCoefficients.get(nowAddCoefficient).get();
     }
+
+    public void setATk(int changeAtk) { atk = changeAtk; }
+    public int getAtk() { return atk; }
 }
