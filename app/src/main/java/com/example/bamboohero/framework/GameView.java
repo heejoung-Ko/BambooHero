@@ -8,7 +8,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.this_is_framework.game.GameState;
+import com.example.bamboohero.Game.AppManager;
+import com.example.bamboohero.Game.DungeonState;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private IState m_state;
@@ -25,7 +26,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
         getHolder().addCallback(this);
 
-        ChageGameState(new GameState());
+        ChageGameState(new DungeonState());
 
         m_thread = new GameViewThread(getHolder(), this);
 

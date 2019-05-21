@@ -20,11 +20,11 @@ public class AppManager {
     private GameView m_gameView;
     private Resources m_resources;
 
-    void setGameViwe(GameView gameViwe){
+    public void setGameViwe(GameView gameViwe){
         m_gameView = gameViwe;
     }
 
-    void setResource(Resources resources){
+    public void setResource(Resources resources){
         m_resources = resources;
     }
 
