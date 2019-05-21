@@ -7,6 +7,15 @@ import android.view.MotionEvent;
 import com.example.bamboohero.framework.IState;
 
 public class DungeonState implements IState {
+
+    public int stage_level;
+    public int turn;
+    public int stage_type;
+
+    public static final int STAGE_TYPE_FOREST = 0;
+    public static final int STAGE_TYPE_CAVE = 1;
+    public static final int STAGE_TYPE_CASTLE = 2;
+
     @Override
     public void Init() {
 
@@ -36,4 +45,5 @@ public class DungeonState implements IState {
     public boolean onTouchEvent(MotionEvent event) {
         return false;
     }
+
 }
