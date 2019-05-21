@@ -18,6 +18,7 @@ public class AppManager {
     }
 
     private GameView m_gameView;
+    private DungeonState m_dungeon;
     private Resources m_resources;
 
     public void setGameViwe(GameView gameViwe){
@@ -37,4 +38,6 @@ public class AppManager {
     public Bitmap getBitmap(int r){
         return BitmapFactory.decodeResource(m_resources, r);
     }
+
+    public DungeonState getM_dungeon() {return m_dungeon;}
 }
