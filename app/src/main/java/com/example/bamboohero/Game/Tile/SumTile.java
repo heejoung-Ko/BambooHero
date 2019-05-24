@@ -8,10 +8,16 @@ import com.example.bamboohero.Game.AppManager;
 public class SumTile extends Tile {
     public SumTile(Bitmap bitmap) {
         super(bitmap);
-        coefficient =  AppManager.getInstance().getM_dungeon().player.getSumCoefficient();
+        coefficient =  AppManager.getInstance().getM_dungeon().tileMap.getSumCoefficient();
     }
 
-    public void Effect(){
+    void Effect(){
         int atk = AppManager.getInstance().getM_dungeon().player.getAtk();
+        atk += coefficient;
+        AppManager.getInstance().getM_dungeon().player.setATk(atk);
+    }
+
+    void colorEffect(){
+
     }
 }

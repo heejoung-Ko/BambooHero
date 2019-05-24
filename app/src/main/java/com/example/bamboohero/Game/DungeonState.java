@@ -18,6 +18,8 @@ public class DungeonState implements IState {
 
     public Player player;
 
+    public TileMap tileMap;
+
     @Override
     public void Init() {
 
