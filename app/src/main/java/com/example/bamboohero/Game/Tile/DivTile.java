@@ -5,8 +5,7 @@ import android.graphics.Bitmap;
 import com.example.bamboohero.Game.AppManager;
 
 public class DivTile extends Tile {
-    public DivTile(Bitmap bitmap) {
-        super(bitmap);
+    public DivTile() {
         coefficient =  AppManager.getInstance().getM_dungeon().tileMap.getMulCoefficient();
     }
 
@@ -14,5 +13,6 @@ public class DivTile extends Tile {
         int atk = AppManager.getInstance().getM_dungeon().player.getAtk();
         atk /= coefficient;
         AppManager.getInstance().getM_dungeon().player.setATk(atk);
+        super.colorEffect();
     }
 }

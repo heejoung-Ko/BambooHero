@@ -1,13 +1,13 @@
 package com.example.bamboohero.Game.Tile;
 
-import android.app.AppComponentFactory;
-import android.graphics.Bitmap;
-
 import com.example.bamboohero.Game.AppManager;
+import com.example.bamboohero.framework.GraphicObject;
 
 public class SumTile extends Tile {
-    public SumTile(Bitmap bitmap) {
-        super(bitmap);
+    public GraphicObject symbol;
+
+    public SumTile( ) {
+
         coefficient =  AppManager.getInstance().getM_dungeon().tileMap.getSumCoefficient();
     }
 
@@ -15,9 +15,6 @@ public class SumTile extends Tile {
         int atk = AppManager.getInstance().getM_dungeon().player.getAtk();
         atk += coefficient;
         AppManager.getInstance().getM_dungeon().player.setATk(atk);
-    }
-
-    void colorEffect(){
-
+        super.colorEffect();
     }
 }
