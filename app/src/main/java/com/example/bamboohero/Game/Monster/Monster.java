@@ -1,7 +1,8 @@
-package com.example.bamboohero.Game;
+package com.example.bamboohero.Game.Monster;
 
 import android.graphics.Bitmap;
 
+import com.example.bamboohero.Game.AppManager;
 import com.example.bamboohero.framework.SpriteAnimation;
 
 public class Monster extends SpriteAnimation {
@@ -15,9 +16,12 @@ public class Monster extends SpriteAnimation {
     public static final int COLOR_GREEN = 1;
     public static final int COLOR_BLUE = 3;
 
+    public static final int TYPE_SLIME = 0;
+
     public int state = STATE_LIVE;
     public int color;
-    public int type; //일반 : 0  스킬있는 몬스터 : 1 ~ n
+    public int type;
+    public int say;
 
     public String talk;
 
@@ -27,7 +31,7 @@ public class Monster extends SpriteAnimation {
 
     @Override
     public void Update(long gameTime) {
-        int power = 100; // $$플레이어의 현재 공격력 받아오기
+        int power = AppManager.getInstance().getM_dungeon().player.getAtk(); // $$플레이어의 현재 공격력 받아오기
 
         if(power >= hp)
           state = STATE_OUT;
@@ -45,6 +49,8 @@ public class Monster extends SpriteAnimation {
 
     public String talking(int value){
         switch (value){
+            case 0:
+                return "어ㅓ앙!";
             case 1:
                 return "먐먀";
             case 2:
@@ -54,7 +60,11 @@ public class Monster extends SpriteAnimation {
             case 4:
                 return "몀먀";
             default:
-                return "뭠마";
+                return "넌 이미 죽어있다";
         }
+    }
+
+    public int getHp(){
+        return hp;
     }
 }
