@@ -35,10 +35,11 @@ public class DungeonState implements IState {
     @Override
     public void Init() {
         stage_level = 1;
+        player = new Player();
+        player.setATk(100);
         monster = new Mon_Slime(stage_level);
         monster.type = monster.TYPE_SLIME;
         backGround = new BackGround(0);
-        player.setATk(100);
         turn = 10;
         monster.say = 0;
     }
@@ -51,7 +52,7 @@ public class DungeonState implements IState {
     @Override
     public void Update() {
         long GameTime = System.currentTimeMillis();
-        monster.Update(GameTime);
+        //monster.Update(GameTime);
         if(monster.state == monster.STATE_OUT){
             stage_level++;
             monster = new Mon_Slime(stage_level);
