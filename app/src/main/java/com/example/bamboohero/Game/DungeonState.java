@@ -1,6 +1,5 @@
 package com.example.bamboohero.Game;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -71,6 +70,7 @@ public class DungeonState implements IState {
     @Override
     public void Render(Canvas canvas) {
         Paint p = new Paint();
+        backGround = new BackGround(stage_type);
         p.setTextSize(20);
         p.setColor(Color.BLACK);
 

@@ -11,14 +11,6 @@ public class Mon_Slime extends Monster {
         //talk = talking(1); // $$어디로 옮기지 터치이벤트..? 어쨌든 움직임 처리할때로
         SetPosition(100, 100); // $$일단 대충 표시만 해두기
 
-        if(stage < 10) // $$턴제한을 스테이지 기준으로 해놨는데 몬스터 HP 기준으로 하려면 수정해야됨 (HP로 수식 만들던가)
-            AppManager.getInstance().getM_dungeon().turn = 10;
-        else if(stage < 20)
-            AppManager.getInstance().getM_dungeon().turn = 20;
-        else if(stage < 30)
-            AppManager.getInstance().getM_dungeon().turn = 30;
-        else
-            AppManager.getInstance().getM_dungeon().turn = 40;
     }
 
     @Override
