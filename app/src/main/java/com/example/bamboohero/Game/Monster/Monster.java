@@ -2,7 +2,6 @@ package com.example.bamboohero.Game.Monster;
 
 import android.graphics.Bitmap;
 
-import com.example.bamboohero.Game.AppManager;
 import com.example.bamboohero.framework.SpriteAnimation;
 
 public class Monster extends SpriteAnimation {
@@ -22,8 +21,7 @@ public class Monster extends SpriteAnimation {
     public int color;
     public int type;
     public int say;
-
-    public String talk;
+    public int player_power;
 
     public Monster(Bitmap bitmap) {
         super(bitmap);
@@ -31,13 +29,8 @@ public class Monster extends SpriteAnimation {
 
     @Override
     public void Update(long gameTime) {
-        int power = AppManager.getInstance().getM_dungeon().player.getAtk(); // $$플레이어의 현재 공격력 받아오기
-
-        if(power >= hp)
-          state = STATE_OUT;
-        else if(AppManager.getInstance().getM_dungeon().turn == 0)
-            state = STATE_ATTACK;
         super.Update(gameTime);
+
     }
 
     public void Skill() { // 스킬있는 친구덜
