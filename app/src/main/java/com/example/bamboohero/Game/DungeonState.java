@@ -32,6 +32,9 @@ public class DungeonState implements IState {
 
     public Random randTalk = new Random();
 
+    public DungeonState(){
+        AppManager.getInstance().m_dungeon = this;
+    }
     @Override
     public void Init() {
         stage_level = 1;
@@ -39,7 +42,8 @@ public class DungeonState implements IState {
         player.setATk(100);
         monster = new Mon_Slime(stage_level);
         monster.type = monster.TYPE_SLIME;
-        backGround = new BackGround(0);
+        stage_type = backGround.TYPE_CAVE;
+        backGround = new BackGround(stage_type); // &&if
         turn = 10;
         monster.say = 0;
     }
@@ -52,7 +56,7 @@ public class DungeonState implements IState {
     @Override
     public void Update() {
         long GameTime = System.currentTimeMillis();
-        //monster.Update(GameTime);
+        monster.Update(GameTime);
         if(monster.state == monster.STATE_OUT){
             stage_level++;
             monster = new Mon_Slime(stage_level);
@@ -64,16 +68,14 @@ public class DungeonState implements IState {
             player.setATk(0);
             monster.say = 5;
         }
-        turn--;
-
     }
 
     @Override
     public void Render(Canvas canvas) {
         Paint p = new Paint();
-        backGround = new BackGround(stage_type);
+        backGround.Draw(canvas);
         p.setTextSize(20);
-        p.setColor(Color.BLACK);
+        p.setColor(Color.WHITE);
 
         canvas.drawText("적의 HP : " + String.valueOf(monster.getHp()), 0, 20, p);
         canvas.drawText("나의 공격력 : " + String.valueOf(player.getAtk()),0, 40, p);
@@ -87,6 +89,7 @@ public class DungeonState implements IState {
             if (monster.state != monster.STATE_ATTACK) {
                 player.setATk(player.getAtk() + 100);
                 monster.say = randTalk.nextInt(4);
+                turn--;
             }
         }
         return true;
