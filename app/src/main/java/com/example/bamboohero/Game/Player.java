@@ -1,9 +1,7 @@
 package com.example.bamboohero.Game;
 
-        import android.graphics.Bitmap;
-
         import com.example.bamboohero.R;
-        import com.example.bamboohero.framework.SpriteAnimation;
+import com.example.bamboohero.framework.SpriteAnimation;
 
 public class Player extends SpriteAnimation {
 
@@ -11,6 +9,7 @@ public class Player extends SpriteAnimation {
 
     public Player( ) {
         super(AppManager.getInstance().getBitmap(R.drawable.test_r));
+        atk = 0;
     }
 
     public void setATk(int changeAtk) { atk = changeAtk; }
