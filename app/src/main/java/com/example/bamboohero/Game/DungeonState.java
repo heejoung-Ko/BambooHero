@@ -42,6 +42,8 @@ public class DungeonState implements IState {
         backGround = new BackGround(0);
         turn = 10;
         monster.say = 0;
+
+        tileMap = new TileMap();
     }
 
     @Override
@@ -64,8 +66,6 @@ public class DungeonState implements IState {
             player.setATk(0);
             monster.say = 5;
         }
-        turn--;
-
     }
 
     @Override
@@ -73,12 +73,14 @@ public class DungeonState implements IState {
         Paint p = new Paint();
         backGround = new BackGround(stage_type);
         p.setTextSize(20);
-        p.setColor(Color.BLACK);
+        p.setColor(Color.WHITE);
 
         canvas.drawText("적의 HP : " + String.valueOf(monster.getHp()), 0, 20, p);
         canvas.drawText("나의 공격력 : " + String.valueOf(player.getAtk()),0, 40, p);
         canvas.drawText("적 : \" " + monster.talking(monster.say) + " \"",0, 60, p);
         canvas.drawText("남은 턴 : " + turn,0, 80, p);
+
+        tileMap.draw(canvas);
     }
 
     @Override
@@ -87,6 +89,7 @@ public class DungeonState implements IState {
             if (monster.state != monster.STATE_ATTACK) {
                 player.setATk(player.getAtk() + 100);
                 monster.say = randTalk.nextInt(4);
+                turn--;
             }
         }
         return true;
@@ -94,6 +97,7 @@ public class DungeonState implements IState {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        tileMap.onTouch(event);
         return false;
     }
 }
