@@ -46,6 +46,8 @@ public class DungeonState implements IState {
         backGround = new BackGround(stage_type); // &&if
         turn = 10;
         monster.say = 0;
+
+        tileMap = new TileMap();
     }
 
     @Override
@@ -81,6 +83,8 @@ public class DungeonState implements IState {
         canvas.drawText("나의 공격력 : " + String.valueOf(player.getAtk()),0, 40, p);
         canvas.drawText("적 : \" " + monster.talking(monster.say) + " \"",0, 60, p);
         canvas.drawText("남은 턴 : " + turn,0, 80, p);
+
+        tileMap.draw(canvas);
     }
 
     @Override
@@ -97,6 +101,7 @@ public class DungeonState implements IState {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        tileMap.onTouch(event);
         return false;
     }
 }

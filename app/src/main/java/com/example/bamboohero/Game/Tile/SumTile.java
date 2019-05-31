@@ -1,14 +1,23 @@
 package com.example.bamboohero.Game.Tile;
 
+import android.graphics.Canvas;
+
 import com.example.bamboohero.Game.AppManager;
 import com.example.bamboohero.framework.GraphicObject;
 
 public class SumTile extends Tile {
     public GraphicObject symbol;
 
-    public SumTile( ) {
+    public SumTile(int x, int y, int c) {
+        super(x, y);
+        coefficient = c;
+    }
 
-        coefficient =  AppManager.getInstance().getM_dungeon().tileMap.getSumCoefficient();
+    public void draw(Canvas canvas){
+        super.draw(canvas);
+        int x = posX_inTileMap * 300;
+        int y = posY_inTileMap * 300 + 300;
+        canvas.drawText("+" + coefficient, x, y, p);
     }
 
     void Effect(){
