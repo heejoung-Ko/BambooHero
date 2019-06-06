@@ -113,6 +113,7 @@ public class DungeonState implements IState {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         tileMap.onTouch(event);
+        tileMap.Update();
         return false;
     }
 

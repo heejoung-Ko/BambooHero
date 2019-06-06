@@ -35,7 +35,7 @@ public class TileMap {
     float downX, upX;   // 슬라이드 입력 읽기 위한 변수
     float downY, upY;   // "
 
-    public enum COLOR {NONE, RED, BLUE, GREEN, YELLOW}; // 색 종류
+    public enum COLOR {NONE, RED, BLUE, GREEN, YELLOW} // 색 종류
     COLOR color = COLOR.NONE;
 
     ArrayList<MinMax> mulCoefficients;   // 곱하기 공격 계수
@@ -156,7 +156,16 @@ public class TileMap {
     }
 
     public void Update(){
-        Tile tile = tiles.get(AppManager.getInstance().m_dungeon.player.pl_local);
-        
+        Tile tile = tiles.get(AppManager.getInstance().m_dungeon.player.pl_local); //머야 이펙트 어케 불러와
+        // 어케.. 타일 이펙트 불러오기...
+        int x;
+        if(AppManager.getInstance().m_dungeon.player.pl_local > 5)
+            x = 2;
+        else if(AppManager.getInstance().m_dungeon.player.pl_local > 2)
+            x = 1;
+        else
+            x = 0;
+        AddTile(x,AppManager.getInstance().m_dungeon.player.pl_old_local % 3);
+        AppManager.getInstance().m_dungeon.player.pl_old_local = AppManager.getInstance().m_dungeon.player.pl_local;
     }
 }
