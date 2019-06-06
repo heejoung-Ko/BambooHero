@@ -15,13 +15,13 @@ public class PlayerTile extends Tile {
         super.draw(canvas);
         int x = posX_inTileMap * 310 + 175;
         int y = posY_inTileMap * 310 + 840;
-        canvas.drawText("플레이어", x, y, p);
+        canvas.drawText("Player", x, y, p);
     }
 
     public void setXY(int x, int y){
         //??
     }
 
-    void Effect(){
+    public void Effect(){
     }
 }

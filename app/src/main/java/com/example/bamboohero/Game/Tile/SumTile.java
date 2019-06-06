@@ -20,7 +20,7 @@ public class SumTile extends Tile {
         canvas.drawText("+" + coefficient, x, y, p);
     }
 
-    void Effect(){
+    public void Effect(){
         int atk = AppManager.getInstance().getM_dungeon().player.getAtk();
         atk += coefficient;
         AppManager.getInstance().getM_dungeon().player.setATk(atk);

@@ -89,12 +89,13 @@ public class Tile {
         }
     }
 
-    void setPos(int changeX, int changeY){
+    public void setPos(int changeX, int changeY){
         posX_inTileMap = changeX;
         posY_inTileMap = changeY;
     }
-    void getPos(int x, int y){
-        x = posX_inTileMap;
-        y = posX_inTileMap;
-    }
+
+    public int getX(){ return  posX_inTileMap; }
+    public int getY(){ return  posY_inTileMap; }
+
+    public void Effect(){}
 }
