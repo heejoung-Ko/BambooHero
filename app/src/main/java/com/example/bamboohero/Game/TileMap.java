@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 
 import com.example.bamboohero.Game.Tile.DivTile;
 import com.example.bamboohero.Game.Tile.MulTile;
+import com.example.bamboohero.Game.Tile.PlayerTile;
 import com.example.bamboohero.Game.Tile.SubTile;
 import com.example.bamboohero.Game.Tile.SumTile;
 import com.example.bamboohero.Game.Tile.Tile;
@@ -46,6 +47,8 @@ public class TileMap {
 
     ArrayList<Tile> tiles;
 
+    int pl_x, pl_y;
+
     public TileMap(){
 
         mulCoefficients = new ArrayList<MinMax>();
@@ -65,7 +68,12 @@ public class TileMap {
 
         for(int i = 0; i<3; i++){
             for(int j = 0; j<3; j++){
-                AddTile(i, j);
+                if(i == 1 && j == 1){
+                    AddTile(i, j, true);
+                    pl_x = 1;
+                    pl_y = 1;
+                }
+                else AddTile(i, j);
             }
         }
     }
@@ -103,9 +111,14 @@ public class TileMap {
         }
     }
 
+    public void AddTile(int x, int y, boolean isPlayer) {
+        tiles.add(new PlayerTile(x, y, getMulCoefficient()));
+    }
+
 
     public boolean onTouch(MotionEvent event) {
         //터치시작
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             downX = event.getX();
             downY = event.getY();
@@ -115,21 +128,60 @@ public class TileMap {
             upX = event.getX();
             upY = event.getY();
 
-
             if(Math.abs(upX - downX) > 300) {
                 // 오른쪽 슬라이드
                 if (downX < upX) {
                     Log.i("슬라이드 입력 확인", "오른쪽으로 움직였당");
-                    if(AppManager.getInstance().m_dungeon.player.pl_local % 3 != 2)
-                        AppManager.getInstance().m_dungeon.player.pl_local++;
+                    if(pl_x < 2)
+                    {
+                        Tile tile = null;
+                        Tile pl = null;
+                        int x = 0, y = 0;
+                        for(Tile t:tiles)
+                        {
+                            x = t.getX();
+                            y = t.getY();
+                            if(x == pl_x && pl_y == y)
+                                pl = t;
+                            if(x == pl_x + 1 && pl_y == y)
+                            {
+                                tile = t;;
+                            }
+                        }
+                        tile.Effect();
+                        tiles.remove(tile);
+                        pl_x += 1;
+                        pl.setPos(pl_x, pl_y);
+                        AddTile(pl_x - 1, pl_y);
+                    }
                     return true;
                 }
 
                 // 왼쪽 슬라이드
                 if (downX > upX) {
-                    if(AppManager.getInstance().m_dungeon.player.pl_local % 3 != 0)
-                        AppManager.getInstance().m_dungeon.player.pl_local--;
                     Log.i("슬라이드 입력 확인", "왼쪽으로 움직였당");
+                    if(pl_x > 0)
+                    {
+                        Tile tile = null;
+                        Tile pl = null;
+                        int x = 0, y = 0;
+                        for(Tile t:tiles)
+                        {
+                            x = t.getX();
+                            y = t.getY();
+                            if(x == pl_x && pl_y == y)
+                                pl = t;
+                            if(x == pl_x - 1 && pl_y == y)
+                            {
+                                tile = t;;
+                            }
+                        }
+                        tile.Effect();
+                        tiles.remove(tile);
+                        pl_x -= 1;
+                        pl.setPos(pl_x, pl_y);
+                        AddTile(pl_x + 1, pl_y);
+                    }
                     return true;
                 }
             }
@@ -137,17 +189,57 @@ public class TileMap {
             else if(Math.abs(upY - downY) > 300) {
                 // 아래 슬라이드
                 if (downY < upY) {
-                    if(AppManager.getInstance().m_dungeon.player.pl_local < 6)
-                        AppManager.getInstance().m_dungeon.player.pl_local += 3;
                     Log.i("슬라이드 입력 확인", "아래쪽으로 움직였당");
+                    if(pl_y < 2)
+                    {
+                        Tile tile = null;
+                        Tile pl = null;
+                        int x = 0, y = 0;
+                        for(Tile t:tiles)
+                        {
+                            x = t.getX();
+                            y = t.getY();
+                            if(x == pl_x && pl_y == y)
+                                pl = t;
+                            if(x == pl_x && pl_y + 1 == y)
+                            {
+                                tile = t;;
+                            }
+                        }
+                        tile.Effect();
+                        tiles.remove(tile);
+                        pl_y += 1;
+                        pl.setPos(pl_x, pl_y);
+                        AddTile(pl_x, pl_y - 1);
+                    }
                     return true;
                 }
 
                 // 위 슬라이드
                 if (downX < upX) {
-                    if(AppManager.getInstance().m_dungeon.player.pl_local > 2)
-                        AppManager.getInstance().m_dungeon.player.pl_local -= 3;
                     Log.i("슬라이드 입력 확인", "위쪽으로 움직였당");
+                    if(pl_y > 0)
+                    {
+                        Tile tile = null;
+                        Tile pl = null;
+                        int x = 0, y = 0;
+                        for(Tile t:tiles)
+                        {
+                            x = t.getX();
+                            y = t.getY();
+                            if(x == pl_x && pl_y == y)
+                                pl = t;
+                            if(x == pl_x && pl_y - 1 == y)
+                            {
+                                tile = t;;
+                            }
+                        }
+                        tile.Effect();
+                        tiles.remove(tile);
+                        pl_y -= 1;
+                        pl.setPos(pl_x, pl_y);
+                        AddTile(pl_x, pl_y + 1);
+                    }
                     return true;
                 }
             }
@@ -156,16 +248,16 @@ public class TileMap {
     }
 
     public void Update(){
-        Tile tile = tiles.get(AppManager.getInstance().m_dungeon.player.pl_local); //머야 이펙트 어케 불러와
+        //Tile tile = tiles.get(AppManager.getInstance().m_dungeon.player.pl_local); //머야 이펙트 어케 불러와
         // 어케.. 타일 이펙트 불러오기...
-        int x;
-        if(AppManager.getInstance().m_dungeon.player.pl_local > 5)
-            x = 2;
-        else if(AppManager.getInstance().m_dungeon.player.pl_local > 2)
-            x = 1;
-        else
-            x = 0;
-        AddTile(x,AppManager.getInstance().m_dungeon.player.pl_old_local % 3);
-        AppManager.getInstance().m_dungeon.player.pl_old_local = AppManager.getInstance().m_dungeon.player.pl_local;
+        //int x;
+        //if(AppManager.getInstance().m_dungeon.player.pl_local > 5)
+         //   x = 2;
+        //else if(AppManager.getInstance().m_dungeon.player.pl_local > 2)
+         //   x = 1;
+        //else
+         //   x = 0;
+        //AddTile(x,AppManager.getInstance().m_dungeon.player.pl_old_local % 3);
+        //AppManager.getInstance().m_dungeon.player.pl_old_local = AppManager.getInstance().m_dungeon.player.pl_local;
     }
 }
