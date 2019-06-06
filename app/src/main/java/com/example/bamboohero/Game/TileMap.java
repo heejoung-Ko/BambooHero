@@ -154,4 +154,9 @@ public class TileMap {
         }
         return false;
     }
+
+    public void Update(){
+        Tile tile = tiles.get(AppManager.getInstance().m_dungeon.player.pl_local);
+        
+    }
 }
