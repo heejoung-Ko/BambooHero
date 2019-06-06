@@ -55,8 +55,8 @@ public class Tile {
     public void draw(Canvas canvas){
         // 여기다가 컬러 타일 그리기
 
-        int x = (posX_inTileMap * 300);
-        int y = (posY_inTileMap * 300) + 300;
+        int x = posX_inTileMap * 310 + 75;
+        int y = posY_inTileMap * 310 + 640;
         switch (color){
             case NONE:
                 noneColorTile.Draw(canvas, x, y);

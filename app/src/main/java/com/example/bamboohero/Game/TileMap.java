@@ -115,33 +115,36 @@ public class TileMap {
         else if (event.getAction() == MotionEvent.ACTION_UP) {
             upX = event.getX();
             upY = event.getY();
-        }
 
-        if(Math.abs(upX - downX) > 100) {
-            // 오른쪽 슬라이드
-            if (downX < upX) {
-                Log.i("슬라이드 입력 확인", "오른쪽으로 움직였당");
-                return true;
+
+            if(Math.abs(upX - downX) > 300) {
+                // 오른쪽 슬라이드
+                if (downX < upX) {
+                    Log.i("슬라이드 입력 확인", "오른쪽으로 움직였당");
+                    return true;
+                }
+
+                // 왼쪽 슬라이드
+                if (downX > upX) {
+                    Log.i("슬라이드 입력 확인", "왼쪽으로 움직였당");
+                    return true;
+                }
             }
 
-            // 왼쪽 슬라이드
-            if (downX > upX) {
-                Log.i("슬라이드 입력 확인", "왼쪽으로 움직였당");
-                return true;
+            else if(Math.abs(upY - downY) > 300) {
+                // 아래 슬라이드
+                if (downY < upY) {
+                    Log.i("슬라이드 입력 확인", "아래쪽으로 움직였당");
+                    return true;
+                }
+
+                // 위 슬라이드
+                if (downX < upX) {
+                    Log.i("슬라이드 입력 확인", "위쪽으로 움직였당");
+                    return true;
+                }
             }
         }
-        // 아래 슬라이드
-        if(downY < upY) {
-            Log.i("슬라이드 입력 확인","아래쪽으로 움직였당");
-            return true;
-        }
-
-        // 위 슬라이드
-        if(downX < upX) {
-            Log.i("슬라이드 입력 확인","위쪽으로 움직였당");
-            return true;
-        }
-
         return false;
     }
 }

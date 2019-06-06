@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <dimen name="imageWidth">40dp</dimen>
+
+    <dimen name="imageHeight">40dp</dimen>
+
+    <dimen name="textSize">40dp</dimen>
+
+    <dimen name="topMargin">40dp</dimen>
+
+</resources>
