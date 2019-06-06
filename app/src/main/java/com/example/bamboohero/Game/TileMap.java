@@ -1,7 +1,6 @@
 package com.example.bamboohero.Game;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -121,11 +120,15 @@ public class TileMap {
                 // 오른쪽 슬라이드
                 if (downX < upX) {
                     Log.i("슬라이드 입력 확인", "오른쪽으로 움직였당");
+                    if(AppManager.getInstance().m_dungeon.player.pl_local % 3 != 2)
+                        AppManager.getInstance().m_dungeon.player.pl_local++;
                     return true;
                 }
 
                 // 왼쪽 슬라이드
                 if (downX > upX) {
+                    if(AppManager.getInstance().m_dungeon.player.pl_local % 3 != 0)
+                        AppManager.getInstance().m_dungeon.player.pl_local--;
                     Log.i("슬라이드 입력 확인", "왼쪽으로 움직였당");
                     return true;
                 }
@@ -134,12 +137,16 @@ public class TileMap {
             else if(Math.abs(upY - downY) > 300) {
                 // 아래 슬라이드
                 if (downY < upY) {
+                    if(AppManager.getInstance().m_dungeon.player.pl_local < 6)
+                        AppManager.getInstance().m_dungeon.player.pl_local += 3;
                     Log.i("슬라이드 입력 확인", "아래쪽으로 움직였당");
                     return true;
                 }
 
                 // 위 슬라이드
                 if (downX < upX) {
+                    if(AppManager.getInstance().m_dungeon.player.pl_local > 2)
+                        AppManager.getInstance().m_dungeon.player.pl_local -= 3;
                     Log.i("슬라이드 입력 확인", "위쪽으로 움직였당");
                     return true;
                 }
