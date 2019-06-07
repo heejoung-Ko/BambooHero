@@ -13,6 +13,7 @@ import com.example.bamboohero.Game.Tile.Tile;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 class MinMax{
@@ -72,16 +73,7 @@ public class TileMap {
 
         tiles = new CopyOnWriteArrayList<Tile>();
 
-        for(int i = 0; i<3; i++){
-            for(int j = 0; j<3; j++){
-                if(i == 1 && j == 1){
-                    AddTile(i, j, true);
-                    pl_x = 1;
-                    pl_y = 1;
-                }
-                else AddTile(i, j);
-            }
-        }
+        reset();
 
         readyTime = System.nanoTime();
     }
@@ -274,5 +266,20 @@ public class TileMap {
             AppManager.getInstance().getM_dungeon().turn -= 1;
             readyTime = System.nanoTime();
         }
+    }
+
+    public void reset(){
+        tiles.clear();
+        for(int i = 0; i<3; i++){
+            for(int j = 0; j<3; j++){
+                if(i == 1 && j == 1){
+                    AddTile(i, j, true);
+                    pl_x = 1;
+                    pl_y = 1;
+                }
+                else AddTile(i, j);
+            }
+        }
+
     }
 }
