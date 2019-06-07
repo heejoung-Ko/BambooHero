@@ -12,6 +12,7 @@ import com.example.bamboohero.Game.Tile.SumTile;
 import com.example.bamboohero.Game.Tile.Tile;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 class MinMax{
     int min;
@@ -45,7 +46,7 @@ public class TileMap {
     ArrayList<MinMax> sumCoefficients;   // 더하기 공격 계수
     int nowSumCoefficient;               // 현재 공격 계수, atkCoefficients에 index로 넣어서 작동
 
-    ArrayList<Tile> tiles;
+    CopyOnWriteArrayList<Tile> tiles;
 
     int pl_x, pl_y;
 
@@ -64,7 +65,7 @@ public class TileMap {
         sumCoefficients.add(new MinMax(300, 500));
         nowSumCoefficient = 0;
 
-        tiles = new ArrayList<Tile>();
+        tiles = new CopyOnWriteArrayList<Tile>();
 
         for(int i = 0; i<3; i++){
             for(int j = 0; j<3; j++){
@@ -128,7 +129,7 @@ public class TileMap {
             upX = event.getX();
             upY = event.getY();
 
-            if(Math.abs(upX - downX) > 300) {
+            if(Math.abs(upY - downY) < 100 && Math.abs(upX - downX) > 100) {
                 // 오른쪽 슬라이드
                 if (downX < upX) {
                     Log.i("슬라이드 입력 확인", "오른쪽으로 움직였당");
@@ -150,6 +151,7 @@ public class TileMap {
                         }
                         tile.Effect();
                         tiles.remove(tile);
+                        tile = null;
                         pl_x += 1;
                         pl.setPos(pl_x, pl_y);
                         AddTile(pl_x - 1, pl_y);
@@ -178,6 +180,7 @@ public class TileMap {
                         }
                         tile.Effect();
                         tiles.remove(tile);
+                        tile = null;
                         pl_x -= 1;
                         pl.setPos(pl_x, pl_y);
                         AddTile(pl_x + 1, pl_y);
@@ -186,7 +189,7 @@ public class TileMap {
                 }
             }
 
-            else if(Math.abs(upY - downY) > 300) {
+            else if(Math.abs(upY - downY) > 100 && Math.abs(upX - downX) < 100) {
                 // 아래 슬라이드
                 if (downY < upY) {
                     Log.i("슬라이드 입력 확인", "아래쪽으로 움직였당");
@@ -208,6 +211,7 @@ public class TileMap {
                         }
                         tile.Effect();
                         tiles.remove(tile);
+                        tile = null;
                         pl_y += 1;
                         pl.setPos(pl_x, pl_y);
                         AddTile(pl_x, pl_y - 1);
@@ -216,7 +220,7 @@ public class TileMap {
                 }
 
                 // 위 슬라이드
-                if (downX < upX) {
+                if (downY > upY) {
                     Log.i("슬라이드 입력 확인", "위쪽으로 움직였당");
                     if(pl_y > 0)
                     {
@@ -236,6 +240,7 @@ public class TileMap {
                         }
                         tile.Effect();
                         tiles.remove(tile);
+                        tile = null;
                         pl_y -= 1;
                         pl.setPos(pl_x, pl_y);
                         AddTile(pl_x, pl_y + 1);
