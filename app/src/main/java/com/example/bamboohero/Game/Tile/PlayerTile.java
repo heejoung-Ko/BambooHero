@@ -8,7 +8,7 @@ public class PlayerTile extends Tile {
     public GraphicObject symbol;
 
     int newX, newY;
-    
+
     public PlayerTile(int x, int y, int c) {
         super(x, y);
     }

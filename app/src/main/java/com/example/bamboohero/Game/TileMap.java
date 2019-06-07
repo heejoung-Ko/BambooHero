@@ -276,7 +276,7 @@ public class TileMap {
     public void Update(){
         nowTime = System.nanoTime();
         if(isMove){
-            if((nowTime - readyTime) / 1000000000 > 1)
+            if((nowTime - readyTime) / 1000000000 > 0)
             {
                 isMove = false;
                 readyTime = System.nanoTime();
