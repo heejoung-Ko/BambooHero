@@ -53,10 +53,8 @@ public class Tile {
     }
 
     public void draw(Canvas canvas){
-        // 여기다가 컬러 타일 그리기
-
-        int x = posX_inTileMap * 310 + 75;
-        int y = posY_inTileMap * 310 + 640;
+        int x = posX_inTileMap * 320 + 60;
+        int y = posY_inTileMap * 320 + 640;
         switch (color){
             case NONE:
                 noneColorTile.Draw(canvas, x, y);
@@ -84,7 +82,7 @@ public class Tile {
         if(nowColor == color)
         {
             int atk = AppManager.getInstance().getM_dungeon().player.getAtk();
-            atk += 10;  // 이거 나중에 조정
+            atk += 100;  // 이거 나중에 조정
             AppManager.getInstance().getM_dungeon().player.setATk(atk);
         }
     }

@@ -12,7 +12,7 @@ public class MulTile extends Tile {
 
     public void draw(Canvas canvas){
         super.draw(canvas);
-        int x = posX_inTileMap * 310 + 175;
+        int x = posX_inTileMap * 310 + 160;
         int y = posY_inTileMap * 310 + 840;
         canvas.drawText("*" + coefficient, x, y, p);
     }

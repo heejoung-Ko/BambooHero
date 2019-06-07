@@ -56,6 +56,8 @@ public class TileMap {
 
     long nowTime;
 
+    boolean isMove;
+
     public TileMap(){
 
         mulCoefficients = new ArrayList<MinMax>();
@@ -76,6 +78,8 @@ public class TileMap {
         reset();
 
         readyTime = System.nanoTime();
+
+        isMove = false;
     }
 
     public int getMulCoefficient(){
@@ -117,8 +121,10 @@ public class TileMap {
 
 
     public boolean onTouch(MotionEvent event) {
-        //터치시작
+        if(isMove)
+            return false;
 
+        //터치시작
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             downX = event.getX();
             downY = event.getY();
@@ -149,6 +155,7 @@ public class TileMap {
                             }
                         }
                         tile.Effect();
+                        pl.color = tile.color;
                         tiles.remove(tile);
                         tile = null;
                         pl_x += 1;
@@ -156,6 +163,7 @@ public class TileMap {
                         AddTile(pl_x - 1, pl_y);
                         AppManager.getInstance().getM_dungeon().turn -= 1;
                         readyTime = System.nanoTime();
+                        isMove = true;
                     }
                     return true;
                 }
@@ -180,6 +188,7 @@ public class TileMap {
                             }
                         }
                         tile.Effect();
+                        pl.color = tile.color;
                         tiles.remove(tile);
                         tile = null;
                         pl_x -= 1;
@@ -187,6 +196,7 @@ public class TileMap {
                         AddTile(pl_x + 1, pl_y);
                         AppManager.getInstance().getM_dungeon().turn -= 1;
                         readyTime = System.nanoTime();
+                        isMove = true;
                     }
                     return true;
                 }
@@ -213,6 +223,7 @@ public class TileMap {
                             }
                         }
                         tile.Effect();
+                        pl.color = tile.color;
                         tiles.remove(tile);
                         tile = null;
                         pl_y += 1;
@@ -220,6 +231,7 @@ public class TileMap {
                         AddTile(pl_x, pl_y - 1);
                         AppManager.getInstance().getM_dungeon().turn -= 1;
                         readyTime = System.nanoTime();
+                        isMove = true;
                     }
                     return true;
                 }
@@ -244,6 +256,7 @@ public class TileMap {
                             }
                         }
                         tile.Effect();
+                        pl.color = tile.color;
                         tiles.remove(tile);
                         tile = null;
                         pl_y -= 1;
@@ -251,6 +264,7 @@ public class TileMap {
                         AddTile(pl_x, pl_y + 1);
                         AppManager.getInstance().getM_dungeon().turn -= 1;
                         readyTime = System.nanoTime();
+                        isMove = true;
                     }
                     return true;
                 }
@@ -261,7 +275,14 @@ public class TileMap {
 
     public void Update(){
         nowTime = System.nanoTime();
-        if((nowTime - readyTime) / 1000000000 > 3)
+        if(isMove){
+            if((nowTime - readyTime) / 1000000000 > 1)
+            {
+                isMove = false;
+                readyTime = System.nanoTime();
+            }
+        }
+        else if((nowTime - readyTime) / 1000000000 > 3)
         {
             AppManager.getInstance().getM_dungeon().turn -= 1;
             readyTime = System.nanoTime();
