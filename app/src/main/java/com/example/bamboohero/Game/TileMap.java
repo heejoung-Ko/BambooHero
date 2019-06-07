@@ -11,6 +11,7 @@ import com.example.bamboohero.Game.Tile.SubTile;
 import com.example.bamboohero.Game.Tile.SumTile;
 import com.example.bamboohero.Game.Tile.Tile;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -50,6 +51,10 @@ public class TileMap {
 
     int pl_x, pl_y;
 
+    long readyTime;
+
+    long nowTime;
+
     public TileMap(){
 
         mulCoefficients = new ArrayList<MinMax>();
@@ -77,6 +82,8 @@ public class TileMap {
                 else AddTile(i, j);
             }
         }
+
+        readyTime = System.nanoTime();
     }
 
     public int getMulCoefficient(){
@@ -155,6 +162,8 @@ public class TileMap {
                         pl_x += 1;
                         pl.setPos(pl_x, pl_y);
                         AddTile(pl_x - 1, pl_y);
+                        AppManager.getInstance().getM_dungeon().turn -= 1;
+                        readyTime = System.nanoTime();
                     }
                     return true;
                 }
@@ -184,6 +193,8 @@ public class TileMap {
                         pl_x -= 1;
                         pl.setPos(pl_x, pl_y);
                         AddTile(pl_x + 1, pl_y);
+                        AppManager.getInstance().getM_dungeon().turn -= 1;
+                        readyTime = System.nanoTime();
                     }
                     return true;
                 }
@@ -215,6 +226,8 @@ public class TileMap {
                         pl_y += 1;
                         pl.setPos(pl_x, pl_y);
                         AddTile(pl_x, pl_y - 1);
+                        AppManager.getInstance().getM_dungeon().turn -= 1;
+                        readyTime = System.nanoTime();
                     }
                     return true;
                 }
@@ -244,6 +257,8 @@ public class TileMap {
                         pl_y -= 1;
                         pl.setPos(pl_x, pl_y);
                         AddTile(pl_x, pl_y + 1);
+                        AppManager.getInstance().getM_dungeon().turn -= 1;
+                        readyTime = System.nanoTime();
                     }
                     return true;
                 }
@@ -253,16 +268,11 @@ public class TileMap {
     }
 
     public void Update(){
-        //Tile tile = tiles.get(AppManager.getInstance().m_dungeon.player.pl_local); //머야 이펙트 어케 불러와
-        // 어케.. 타일 이펙트 불러오기...
-        //int x;
-        //if(AppManager.getInstance().m_dungeon.player.pl_local > 5)
-         //   x = 2;
-        //else if(AppManager.getInstance().m_dungeon.player.pl_local > 2)
-         //   x = 1;
-        //else
-         //   x = 0;
-        //AddTile(x,AppManager.getInstance().m_dungeon.player.pl_old_local % 3);
-        //AppManager.getInstance().m_dungeon.player.pl_old_local = AppManager.getInstance().m_dungeon.player.pl_local;
+        nowTime = System.nanoTime();
+        if((nowTime - readyTime) / 1000000000 > 3)
+        {
+            AppManager.getInstance().getM_dungeon().turn -= 1;
+            readyTime = System.nanoTime();
+        }
     }
 }

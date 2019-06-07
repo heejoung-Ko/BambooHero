@@ -21,6 +21,8 @@ public class DivTile extends Tile {
     public void Effect(){
         int atk = AppManager.getInstance().getM_dungeon().player.getAtk();
         atk /= coefficient;
+        if(atk < 0)
+            atk =0;
         AppManager.getInstance().getM_dungeon().player.setATk(atk);
         super.colorEffect();
     }

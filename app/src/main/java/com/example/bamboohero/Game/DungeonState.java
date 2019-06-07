@@ -79,6 +79,7 @@ public class DungeonState implements IState {
             player.setATk(0);
             monster.say = 5;
         }
+        tileMap.Update();
     }
 
     @Override
@@ -92,7 +93,8 @@ public class DungeonState implements IState {
         canvas.drawText("나의 공격력 : " + String.valueOf(player.getAtk()),0, 100, p);
         canvas.drawText("적 : \" " + monster.talking(monster.say) + " \"",0, 150, p);
         canvas.drawText("남은 턴 : " + turn,0, 200, p);
-        canvas.drawText("위치 번호 : " + tileMap.pl_x + ", " + tileMap.pl_y,0, 250, p);
+        canvas.drawText("남은 시간 : " + (3 - (tileMap.nowTime - tileMap.readyTime) / 1000000000),0, 250, p);
+        canvas.drawText("위치 번호 : " + tileMap.pl_x + ", " + tileMap.pl_y,0, 300, p);
 
         player.Draw(canvas);
         tileMap.draw(canvas);
@@ -113,7 +115,6 @@ public class DungeonState implements IState {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         tileMap.onTouch(event);
-        tileMap.Update();
         return false;
     }
 
