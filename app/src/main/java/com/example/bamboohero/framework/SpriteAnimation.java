@@ -45,7 +45,6 @@ public class SpriteAnimation extends GraphicObject {
         if (gameTime > m_frameTime + m_fps) {
             m_frameTime = gameTime;
             m_currentFrame += 1;
-
             if (m_currentFrame >= m_noOfFrames) {
                 m_currentFrame = 0;
             }

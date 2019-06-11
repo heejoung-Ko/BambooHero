@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 
 import com.example.bamboohero.Game.Monster.Mon_Slime;
 import com.example.bamboohero.Game.Monster.Monster;
+import com.example.bamboohero.R;
+import com.example.bamboohero.framework.GraphicObject;
 import com.example.bamboohero.framework.IState;
 
 import java.util.Random;
@@ -19,6 +21,8 @@ public class DungeonState implements IState {
     public int stage_level;
     public int turn;
     public int stage_type;
+    Paint p = new Paint();
+
     public static int SCREEN_WIDTH = 0;
     public static int SCREEN_HEIGHT = 0;
 
@@ -35,6 +39,8 @@ public class DungeonState implements IState {
     public Monster monster;
 
     public Random randTalk = new Random();
+
+    public GraphicObject damage = new GraphicObject(AppManager.getInstance().getBitmap(R.drawable.damage));
 
     public DungeonState(){
         AppManager.getInstance().m_dungeon = this;
@@ -57,6 +63,8 @@ public class DungeonState implements IState {
         turn = 10;
 
         tileMap = new TileMap();
+
+        p.setColor(Color.WHITE);
     }
 
     @Override
@@ -80,26 +88,31 @@ public class DungeonState implements IState {
             player.setATk(0);
             monster.say = 5;
         }
+        player.Update(GameTime);
+        monster.Update(GameTime);
         tileMap.Update();
     }
 
     @Override
     public void Render(Canvas canvas) {
-        Paint p = new Paint();
         backGround.Draw(canvas);
+        p.setTextSize(40);
+
+        player.Draw(canvas);
+
+        damage.Draw(canvas);
+
+
+        //canvas.drawText("공격력 : " + String.valueOf(player.getAtk()),430, 180, p);
+        canvas.drawText("적의 HP : " + String.valueOf(monster.getHp()), 430, 310, p);
         p.setTextSize(50);
-        p.setColor(Color.WHITE);
-
-
-        canvas.drawText("적의 HP : " + String.valueOf(monster.getHp()), 0, 50, p);
-        canvas.drawText("나의 공격력 : " + String.valueOf(player.getAtk()),0, 100, p);
         canvas.drawText("적 : \" " + monster.talking(monster.say) + " \"",0, 150, p);
         canvas.drawText("남은 턴 : " + turn,0, 200, p);
         canvas.drawText("남은 시간 : " + (3 - (tileMap.nowTime - tileMap.readyTime) / 1000000000),0, 250, p);
         canvas.drawText("현재 층 : " + stage_level,0, 300, p);
 
-        player.Draw(canvas);
         tileMap.draw(canvas);
+        monster.Draw(canvas);
     }
 
     @Override
