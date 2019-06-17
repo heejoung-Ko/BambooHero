@@ -3,6 +3,7 @@ package com.example.bamboohero.Game;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 
 import com.example.bamboohero.framework.GameView;
 
@@ -13,12 +14,14 @@ public class AppManager {
     private Resources m_resources;
     public DungeonState m_dungeon;
     // 오직 하나만 생성하자~~ (싱글톤 방식)
+
+    Typeface font;
+
     public static AppManager getInstance(){
         if(s_instance == null)
             s_instance = new AppManager();
         return s_instance;
     }
-
 
     public void setGameViwe(GameView gameViwe){
         m_gameView = gameViwe;
@@ -35,4 +38,7 @@ public class AppManager {
 
     public Bitmap getBitmap(int r){return BitmapFactory.decodeResource(m_resources, r);};
     public DungeonState getM_dungeon(){return m_dungeon;}
+
+    public void setFont(Typeface tf){font = tf;}
+    public Typeface getFont() {return font;}
 }

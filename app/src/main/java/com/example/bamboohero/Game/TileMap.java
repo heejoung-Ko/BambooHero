@@ -57,6 +57,7 @@ public class TileMap {
     long nowTime;
 
     boolean isMove;
+    boolean isShakingCanvas;
 
     public TileMap(){
 
@@ -80,6 +81,7 @@ public class TileMap {
         readyTime = System.nanoTime();
 
         isMove = false;
+        isShakingCanvas = false;
     }
 
     public int getMulCoefficient(){
@@ -121,9 +123,6 @@ public class TileMap {
 
 
     public boolean onTouch(MotionEvent event) {
-        if(isMove)
-            return false;
-
         //터치시작
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             downX = event.getX();
@@ -286,6 +285,7 @@ public class TileMap {
         {
             AppManager.getInstance().getM_dungeon().turn -= 1;
             readyTime = System.nanoTime();
+            isShakingCanvas = true;
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.bamboohero.framework;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -11,18 +12,21 @@ import android.view.SurfaceView;
 import com.example.bamboohero.Game.AppManager;
 import com.example.bamboohero.Game.DungeonState;
 
+import java.lang.reflect.Type;
+
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private IState m_state;
 
     private GameViewThread m_thread;
 
-    public GameView(Context context) {
+    public GameView(Context context, Typeface tf) {
         super(context);
         // 키 입력 처리를 받기 위해
         setFocusable(true);
 
         AppManager.getInstance().setGameViwe(this);
         AppManager.getInstance().setResource(getResources());
+        AppManager.getInstance().setFont(tf);
 
         getHolder().addCallback(this);
 
@@ -33,7 +37,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public void myOnDraw(Canvas canvas){
-        canvas.drawColor(Color.BLACK);
+        canvas.drawColor(Color.WHITE);
         m_state.Render(canvas);
     }
 

@@ -13,6 +13,7 @@ import com.example.bamboohero.Game.Monster.Monster;
 import com.example.bamboohero.R;
 import com.example.bamboohero.framework.GraphicObject;
 import com.example.bamboohero.framework.IState;
+import com.example.bamboohero.framework.SpriteAnimation;
 
 import java.util.Random;
 
@@ -21,7 +22,9 @@ public class DungeonState implements IState {
     public int stage_level;
     public int turn;
     public int stage_type;
+
     Paint p = new Paint();
+    SpriteAnimation sp_StageClear = new SpriteAnimation(AppManager.getInstance().getBitmap(R.drawable.stage_clear));
 
     public static int SCREEN_WIDTH = 0;
     public static int SCREEN_HEIGHT = 0;
@@ -45,6 +48,9 @@ public class DungeonState implements IState {
     public DungeonState(){
         AppManager.getInstance().m_dungeon = this;
     }
+
+    boolean isStageClear;
+
     @Override
     public void Init() {
         stage_level = 1;
@@ -64,7 +70,11 @@ public class DungeonState implements IState {
 
         tileMap = new TileMap();
 
-        p.setColor(Color.WHITE);
+        p.setTypeface(AppManager.getInstance().getFont());
+        p.setColor(Color.BLACK);
+
+        sp_StageClear.InitSpriteData(108 * 3, 371 * 3, 10, 10);
+        sp_StageClear.SetPosition(0, 800);
     }
 
     @Override
@@ -75,14 +85,16 @@ public class DungeonState implements IState {
     @Override
     public void Update() {
         long GameTime = System.currentTimeMillis();
+
+        if(isStageClear)
+        {
+            sp_StageClear.Update(GameTime);
+            return;
+        }
+
         monster.Update(GameTime);
         if(monster.state == monster.STATE_OUT){
-            stage_level++;
-            monster = new Mon_Slime(stage_level);
-            player.setATk(100);
-            turn = 10;
-            monster.say = 0;
-            tileMap.reset();
+            isStageClear = true;
         }
         else if(monster.state == monster.STATE_ATTACK){
             player.setATk(0);
@@ -96,15 +108,15 @@ public class DungeonState implements IState {
     @Override
     public void Render(Canvas canvas) {
         backGround.Draw(canvas);
-        p.setTextSize(40);
+        p.setTextSize(45);
 
         player.Draw(canvas);
 
         damage.Draw(canvas);
 
 
-        //canvas.drawText("공격력 : " + String.valueOf(player.getAtk()),430, 180, p);
-        canvas.drawText("적의 HP : " + String.valueOf(monster.getHp()), 430, 310, p);
+        canvas.drawText("공격력 : " + String.valueOf(player.getAtk()),430, 180, p);
+        canvas.drawText("HP : " + String.valueOf(monster.getHp()), 430, 310, p);
         p.setTextSize(50);
         canvas.drawText("적 : \" " + monster.talking(monster.say) + " \"",0, 150, p);
         canvas.drawText("남은 턴 : " + turn,0, 200, p);
@@ -113,6 +125,11 @@ public class DungeonState implements IState {
 
         tileMap.draw(canvas);
         monster.Draw(canvas);
+
+        if(isStageClear)
+        {
+            sp_StageClear.Draw(canvas);
+        }
     }
 
     @Override
@@ -129,6 +146,17 @@ public class DungeonState implements IState {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(isStageClear && event.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            stage_level++;
+            monster = new Mon_Slime(stage_level);
+            player.setATk(100);
+            turn = 10;
+            monster.say = 0;
+            tileMap.reset();
+
+            isStageClear = false;
+        }
         tileMap.onTouch(event);
         return false;
     }
