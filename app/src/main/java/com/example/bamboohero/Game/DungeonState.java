@@ -25,6 +25,7 @@ public class DungeonState implements IState {
 
     Paint p;
     SpriteAnimation sp_StageClear = new SpriteAnimation(AppManager.getInstance().getBitmap(R.drawable.stage_clear));
+    SpriteAnimation sp_CharacterAttack = new SpriteAnimation(AppManager.getInstance().getBitmap(R.drawable.cut_scene));
 
     public static int SCREEN_WIDTH = 0;
     public static int SCREEN_HEIGHT = 0;
@@ -50,6 +51,8 @@ public class DungeonState implements IState {
     }
 
     boolean isStageClear;
+    boolean isPlayerAttack;
+    boolean isPlayerAttackSet = true;
 
     @Override
     public void Init() {
@@ -76,6 +79,11 @@ public class DungeonState implements IState {
 
         sp_StageClear.InitSpriteData(108*3, 371*3, 10, 10);
         sp_StageClear.SetPosition(0, 800);
+
+        sp_CharacterAttack.InitSpriteData(155*3,371*3,16,12);
+        sp_CharacterAttack.SetPosition(0,0);
+        sp_CharacterAttack.setM_ready(false);
+
     }
 
     @Override
@@ -87,6 +95,25 @@ public class DungeonState implements IState {
     public void Update() {
         long GameTime = System.currentTimeMillis();
 
+        if(!isPlayerAttackSet)
+        {
+            sp_CharacterAttack.InitSpriteData(155*3,371*3,16,12);
+            sp_CharacterAttack.resetFrameCount();
+            sp_CharacterAttack.setM_ready(false);
+            isPlayerAttackSet = true;
+            isPlayerAttack = true;
+        }
+        if(isPlayerAttack)
+        {
+            sp_CharacterAttack.Update(GameTime);
+            if (sp_CharacterAttack.getAnimationEnd())
+            {
+                isPlayerAttack = false;
+                isStageClear = true;
+            }
+            return;
+        }
+
         if(isStageClear)
         {
             sp_StageClear.Update(GameTime);
@@ -95,7 +122,7 @@ public class DungeonState implements IState {
 
         monster.Update(GameTime);
         if(monster.state == monster.STATE_OUT){
-            isStageClear = true;
+            isPlayerAttackSet = false;
         }
         else if(monster.state == monster.STATE_ATTACK){
             player.setATk(0);
@@ -126,6 +153,11 @@ public class DungeonState implements IState {
 
         tileMap.draw(canvas);
         monster.Draw(canvas);
+
+        if(isPlayerAttack)
+        {
+            sp_CharacterAttack.Draw(canvas);
+        }
 
         if(isStageClear)
         {
@@ -159,7 +191,9 @@ public class DungeonState implements IState {
             isStageClear = false;
             return false;
         }
-        tileMap.onTouch(event);
+        if(!isPlayerAttack) {
+            tileMap.onTouch(event);
+        }
         return false;
     }
 

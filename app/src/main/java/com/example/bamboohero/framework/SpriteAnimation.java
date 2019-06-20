@@ -34,6 +34,7 @@ public class SpriteAnimation extends GraphicObject {
         m_rect.right = m_spriteWidth;
         m_fps = 1000 / fps;             // 다음 스프라이트가 그려지기 까지의 간격
         m_noOfFrames = frameCount;
+        m_end = false;
     }
 
     public void Draw(Canvas canvas) {
@@ -54,7 +55,10 @@ public class SpriteAnimation extends GraphicObject {
             m_frameTime = gameTime;
             m_currentFrame += 1;
             if (m_currentFrame >= m_noOfFrames) {
-                m_currentFrame = 0;
+                if(m_ready)
+                    m_currentFrame = 0;
+                else
+                    m_end = true;
             }
         }
         m_rect.left = m_currentFrame * m_spriteWidth;
@@ -75,5 +79,11 @@ public class SpriteAnimation extends GraphicObject {
         m_rect.left = m_currentFrame * m_spriteWidth;
         m_rect.right = m_rect.left + m_spriteWidth;
         return false;
+    }
+    public boolean getAnimationEnd(){ return m_end; }
+    public void setM_ready(boolean ready){m_ready = ready;}
+    public void resetFrameCount(){
+        m_frameTime = 0;
+        m_currentFrame = 0;
     }
 }
