@@ -23,7 +23,7 @@ public class DungeonState implements IState {
     public int turn;
     public int stage_type;
 
-    Paint p = new Paint();
+    Paint p;
     SpriteAnimation sp_StageClear = new SpriteAnimation(AppManager.getInstance().getBitmap(R.drawable.stage_clear));
 
     public static int SCREEN_WIDTH = 0;
@@ -70,10 +70,11 @@ public class DungeonState implements IState {
 
         tileMap = new TileMap();
 
-        p.setTypeface(AppManager.getInstance().getFont());
+        p = new Paint();
+        p.setTypeface(AppManager.getInstance().getFont1());
         p.setColor(Color.BLACK);
 
-        sp_StageClear.InitSpriteData(108 * 3, 371 * 3, 10, 10);
+        sp_StageClear.InitSpriteData(108*3, 371*3, 10, 10);
         sp_StageClear.SetPosition(0, 800);
     }
 
@@ -114,7 +115,6 @@ public class DungeonState implements IState {
 
         damage.Draw(canvas);
 
-
         canvas.drawText("공격력 : " + String.valueOf(player.getAtk()),430, 180, p);
         canvas.drawText("HP : " + String.valueOf(monster.getHp()), 430, 310, p);
         p.setTextSize(50);
@@ -122,6 +122,7 @@ public class DungeonState implements IState {
         canvas.drawText("남은 턴 : " + turn,0, 200, p);
         canvas.drawText("남은 시간 : " + (3 - (tileMap.nowTime - tileMap.readyTime) / 1000000000),0, 250, p);
         canvas.drawText("현재 층 : " + stage_level,0, 300, p);
+        canvas.drawText("플레이어 : " + tileMap.pl_x + tileMap.pl_y,0, 500, p);
 
         tileMap.draw(canvas);
         monster.Draw(canvas);
@@ -146,7 +147,7 @@ public class DungeonState implements IState {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(isStageClear && event.getAction() == MotionEvent.ACTION_DOWN)
+        if(isStageClear && event.getAction() == MotionEvent.ACTION_UP)
         {
             stage_level++;
             monster = new Mon_Slime(stage_level);

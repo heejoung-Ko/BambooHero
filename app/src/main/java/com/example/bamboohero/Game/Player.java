@@ -21,8 +21,6 @@ public class Player extends SpriteAnimation {
         this.InitSpriteData(453,1112,2,2);
         atk = 0;
         Log.i("플레이어", "그려짐");
-
-
     }
 
     public void setATk(int changeAtk) { atk = changeAtk; }

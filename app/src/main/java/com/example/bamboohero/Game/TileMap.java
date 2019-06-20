@@ -14,6 +14,7 @@ import com.example.bamboohero.Game.Tile.Tile;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 class MinMax{
@@ -58,6 +59,8 @@ public class TileMap {
 
     boolean isMove;
     boolean isShakingCanvas;
+
+    PlayerTile pl;
 
     public TileMap(){
 
@@ -118,11 +121,15 @@ public class TileMap {
     }
 
     public void AddTile(int x, int y, boolean isPlayer) {
-        tiles.add(new PlayerTile(x, y, getMulCoefficient()));
+        tiles.add(pl = new PlayerTile(x, y, getMulCoefficient()));
+
     }
 
 
     public boolean onTouch(MotionEvent event) {
+        if(isMove)
+            return false;
+
         //터치시작
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             downX = event.getX();
@@ -140,26 +147,22 @@ public class TileMap {
                     if(pl_x < 2)
                     {
                         Tile tile = null;
-                        Tile pl = null;
                         int x = 0, y = 0;
                         for(Tile t:tiles)
                         {
                             x = t.getX();
                             y = t.getY();
-                            if(x == pl_x && pl_y == y)
-                                pl = t;
                             if(x == pl_x + 1 && pl_y == y)
                             {
-                                tile = t;;
+                                tile = t;
                             }
                         }
                         tile.Effect();
-                        pl.color = tile.color;
-                        tiles.remove(tile);
-                        tile = null;
+                        tile.Close(pl_x, pl_y);
+
                         pl_x += 1;
-                        pl.setPos(pl_x, pl_y);
-                        AddTile(pl_x - 1, pl_y);
+                        pl.Close(pl_x, pl_y, tile.color);
+
                         AppManager.getInstance().getM_dungeon().turn -= 1;
                         readyTime = System.nanoTime();
                         isMove = true;
@@ -173,26 +176,22 @@ public class TileMap {
                     if(pl_x > 0)
                     {
                         Tile tile = null;
-                        Tile pl = null;
                         int x = 0, y = 0;
                         for(Tile t:tiles)
                         {
                             x = t.getX();
                             y = t.getY();
-                            if(x == pl_x && pl_y == y)
-                                pl = t;
                             if(x == pl_x - 1 && pl_y == y)
                             {
-                                tile = t;;
+                                tile = t;
                             }
                         }
                         tile.Effect();
-                        pl.color = tile.color;
-                        tiles.remove(tile);
-                        tile = null;
+                        tile.Close(pl_x, pl_y);
+
                         pl_x -= 1;
-                        pl.setPos(pl_x, pl_y);
-                        AddTile(pl_x + 1, pl_y);
+                        pl.Close(pl_x, pl_y, tile.color);
+
                         AppManager.getInstance().getM_dungeon().turn -= 1;
                         readyTime = System.nanoTime();
                         isMove = true;
@@ -208,26 +207,22 @@ public class TileMap {
                     if(pl_y < 2)
                     {
                         Tile tile = null;
-                        Tile pl = null;
                         int x = 0, y = 0;
                         for(Tile t:tiles)
                         {
                             x = t.getX();
                             y = t.getY();
-                            if(x == pl_x && pl_y == y)
-                                pl = t;
                             if(x == pl_x && pl_y + 1 == y)
                             {
-                                tile = t;;
+                                tile = t;
                             }
                         }
                         tile.Effect();
-                        pl.color = tile.color;
-                        tiles.remove(tile);
-                        tile = null;
+                        tile.Close(pl_x, pl_y);
+
                         pl_y += 1;
-                        pl.setPos(pl_x, pl_y);
-                        AddTile(pl_x, pl_y - 1);
+                        pl.Close(pl_x, pl_y, tile.color);
+
                         AppManager.getInstance().getM_dungeon().turn -= 1;
                         readyTime = System.nanoTime();
                         isMove = true;
@@ -241,26 +236,23 @@ public class TileMap {
                     if(pl_y > 0)
                     {
                         Tile tile = null;
-                        Tile pl = null;
                         int x = 0, y = 0;
                         for(Tile t:tiles)
                         {
                             x = t.getX();
                             y = t.getY();
-                            if(x == pl_x && pl_y == y)
-                                pl = t;
                             if(x == pl_x && pl_y - 1 == y)
                             {
-                                tile = t;;
+                                tile = t;
                             }
                         }
+
                         tile.Effect();
-                        pl.color = tile.color;
-                        tiles.remove(tile);
-                        tile = null;
+                        tile.Close(pl_x, pl_y);
+
                         pl_y -= 1;
-                        pl.setPos(pl_x, pl_y);
-                        AddTile(pl_x, pl_y + 1);
+                        pl.Close(pl_x, pl_y, tile.color);
+
                         AppManager.getInstance().getM_dungeon().turn -= 1;
                         readyTime = System.nanoTime();
                         isMove = true;
@@ -274,14 +266,20 @@ public class TileMap {
 
     public void Update(){
         nowTime = System.nanoTime();
-        if(isMove){
-            if((nowTime - readyTime) / 1000000000 > 0)
-            {
+
+        Iterator<Tile> t = tiles.iterator();
+        while (t.hasNext()){
+            Tile tile = t.next();
+            if(tile.Update()){
+                Log.i("삭제 한다?", "삭제 했당");
+                tiles.remove(tile);
+                AddTile(tile.newX, tile.newY);
+                tile = null;
                 isMove = false;
-                readyTime = System.nanoTime();
             }
         }
-        else if((nowTime - readyTime) / 1000000000 > 3)
+
+        if(!isMove && (nowTime - readyTime) / 1000000000 > 3)
         {
             AppManager.getInstance().getM_dungeon().turn -= 1;
             readyTime = System.nanoTime();
@@ -290,6 +288,8 @@ public class TileMap {
     }
 
     public void reset(){
+        readyTime = System.nanoTime();
+        isMove = false;
         tiles.clear();
         for(int i = 0; i<3; i++){
             for(int j = 0; j<3; j++){

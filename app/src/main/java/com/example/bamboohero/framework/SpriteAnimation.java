@@ -41,6 +41,14 @@ public class SpriteAnimation extends GraphicObject {
         canvas.drawBitmap(m_bitmap, m_rect, dest, null);
     }
 
+    public void DrawReverse(Canvas canvas){
+        Rect dest = new Rect(m_x, m_y, m_x + m_spriteWidth, m_y + m_spriteHeight);
+        Rect reverse = new Rect(0, m_rect.top, 0,m_rect.bottom);
+        reverse.left = (m_noOfFrames - m_currentFrame) * m_spriteWidth;
+        reverse.right = reverse.left + m_spriteWidth;
+        canvas.drawBitmap(m_bitmap, reverse, dest, null);
+    }
+
     public void Update(long gameTime) {
         if (gameTime > m_frameTime + m_fps) {
             m_frameTime = gameTime;
@@ -51,5 +59,21 @@ public class SpriteAnimation extends GraphicObject {
         }
         m_rect.left = m_currentFrame * m_spriteWidth;
         m_rect.right = m_rect.left + m_spriteWidth;
+    }
+
+    public boolean Update(long gameTime, boolean forTile) {
+        if (gameTime > m_frameTime + m_fps) {
+            m_frameTime = gameTime;
+            m_currentFrame += 1;
+            if (m_currentFrame >= m_noOfFrames) {
+                m_currentFrame = 0;
+                m_rect.left = m_currentFrame * m_spriteWidth;
+                m_rect.right = m_rect.left + m_spriteWidth;
+                return  true;
+            }
+        }
+        m_rect.left = m_currentFrame * m_spriteWidth;
+        m_rect.right = m_rect.left + m_spriteWidth;
+        return false;
     }
 }

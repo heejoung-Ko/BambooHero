@@ -11,7 +11,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Typeface tf = Typeface.create(Typeface.createFromAsset(getAssets(), "font/dot_font_1.ttf"), Typeface.BOLD);    // 폰트
-        setContentView(new GameView(this, tf));
+        Typeface tf1 = Typeface.create(Typeface.createFromAsset(getAssets(), "font/dot_font_1.ttf"), Typeface.BOLD);    // 폰트1
+        Typeface tf2 = Typeface.createFromAsset(getAssets(), "font/garosero_r.ttf");    // 폰트2
+        setContentView(new GameView(this, tf1, tf2));
     }
 }

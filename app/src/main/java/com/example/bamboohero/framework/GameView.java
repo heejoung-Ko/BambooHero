@@ -19,14 +19,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     private GameViewThread m_thread;
 
-    public GameView(Context context, Typeface tf) {
+    public GameView(Context context, Typeface tf1, Typeface tf2) {
         super(context);
         // 키 입력 처리를 받기 위해
         setFocusable(true);
 
         AppManager.getInstance().setGameViwe(this);
         AppManager.getInstance().setResource(getResources());
-        AppManager.getInstance().setFont(tf);
+        AppManager.getInstance().setFont1(tf1);
+        AppManager.getInstance().setFont2(tf2);
 
         getHolder().addCallback(this);
 
