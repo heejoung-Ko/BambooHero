@@ -52,8 +52,7 @@ public class PlayerTile extends Tile {
                     opening = false;
                 else {
                     closing = false;
-                    color = newColor;
-                    colorChoice(newX, newY);
+                    Move();
                     opening = true;
                 }
             }
@@ -90,6 +89,29 @@ public class PlayerTile extends Tile {
 
         setPos(x, y);
 
+        colorTile.InitSpriteData(106*3, 106*3, 30, 6);
+    }
+
+    public void Move(){
+        color = newColor;
+
+        switch (color){
+            case RED:
+                colorTile = tRed;
+                break;
+            case BLUE:
+                colorTile = tBlue;
+                break;
+            case GREEN:
+                colorTile = tGreen;
+                break;
+            case YELLOW:
+                colorTile = tYellow;
+                break;
+            case NONE:
+                break;
+        }
+        setPos(newX, newY);
         colorTile.InitSpriteData(106*3, 106*3, 30, 6);
     }
 }

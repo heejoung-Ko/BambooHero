@@ -157,6 +157,7 @@ public class DungeonState implements IState {
             tileMap.reset();
 
             isStageClear = false;
+            return false;
         }
         tileMap.onTouch(event);
         return false;
