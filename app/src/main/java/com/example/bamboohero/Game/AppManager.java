@@ -51,5 +51,4 @@ public class AppManager {
     public void setFont2(Typeface tf){ tf2 = tf; }
     public Typeface getFont2() {return tf2;}
 
-    public void setState_number(int state_n){state_number = state_n;}
 }

@@ -9,16 +9,17 @@ import android.view.MotionEvent;
 
 import com.example.bamboohero.R;
 import com.example.bamboohero.framework.IState;
+import com.example.bamboohero.framework.SoundManager;
 import com.example.bamboohero.framework.SpriteAnimation;
 
 public class LobbyState implements IState {
 
     SpriteAnimation LobbyBackground = new SpriteAnimation(AppManager.getInstance().getBitmap(R.drawable.main_background));
-
-    float touch_x=0;
-    float touch_y=0;
+    float touch_x = 0;
+    float touch_y = 0;
 
     Paint p;
+
 
 
     @Override
@@ -28,6 +29,9 @@ public class LobbyState implements IState {
         p.setTypeface(AppManager.getInstance().getFont2());
         p.setTextSize(70);
         p.setColor(Color.BLACK);
+        SoundManager.getInstance().Init(AppManager.getInstance().getGameView().getContext());
+        SoundManager.getInstance().addSound(0, R.raw.main_music);
+        SoundManager.getInstance().playLooped(0);
     }
 
     @Override
