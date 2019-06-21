@@ -34,10 +34,10 @@ public class PlayerTile extends Tile {
             return;
 
         int x = posX_inTileMap * 320 + 60;
-        int y = posY_inTileMap * 320 + 640;
+        int y = posY_inTileMap * 320 + 640 + 100;
         symbol.Draw(canvas, x, y);
         x = posX_inTileMap * 310 + 160;
-        y = posY_inTileMap * 310 + 840;
+        y = posY_inTileMap * 310 + 840 + 100;
         canvas.drawText("Player", x - 70, y + 105, strokePaint);
         canvas.drawText("Player", x - 70, y + 105, textPaint);
     }

@@ -1,6 +1,7 @@
 package com.example.bamboohero.Game;
 
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -10,6 +11,8 @@ import com.example.bamboohero.Game.Tile.PlayerTile;
 import com.example.bamboohero.Game.Tile.SubTile;
 import com.example.bamboohero.Game.Tile.SumTile;
 import com.example.bamboohero.Game.Tile.Tile;
+import com.example.bamboohero.R;
+import com.example.bamboohero.framework.GraphicObject;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -51,6 +54,8 @@ public class TileMap {
 
     CopyOnWriteArrayList<Tile> tiles;
 
+    int num_of_item1, num_of_item2;
+
     int pl_x, pl_y;
 
     long readyTime;
@@ -62,19 +67,26 @@ public class TileMap {
 
     PlayerTile pl;
 
+    GraphicObject item1 = new GraphicObject(AppManager.getInstance().getBitmap(R.drawable.item1));
+    GraphicObject item2 = new GraphicObject(AppManager.getInstance().getBitmap(R.drawable.item2));
+
     public TileMap(){
 
         mulCoefficients = new ArrayList<MinMax>();
         sumCoefficients = new ArrayList<MinMax>();
 
-        mulCoefficients.add(new MinMax(2, 3));
-        mulCoefficients.add(new MinMax(3, 5));
-        mulCoefficients.add(new MinMax(5, 10));
+        mulCoefficients.add(new MinMax(3, 4));
+        mulCoefficients.add(new MinMax(3, 6));
+        mulCoefficients.add(new MinMax(3, 10));
+        mulCoefficients.add(new MinMax(4, 14));
+        mulCoefficients.add(new MinMax(4, 20));
         nowMulCoefficient = 0;
 
         sumCoefficients.add(new MinMax(100, 200));
-        sumCoefficients.add(new MinMax(200, 300));
-        sumCoefficients.add(new MinMax(300, 500));
+        sumCoefficients.add(new MinMax(200, 500));
+        sumCoefficients.add(new MinMax(200, 1000));
+        sumCoefficients.add(new MinMax(500, 2000));
+        sumCoefficients.add(new MinMax(1000, 5000));
         nowSumCoefficient = 0;
 
         tiles = new CopyOnWriteArrayList<Tile>();
@@ -85,6 +97,12 @@ public class TileMap {
 
         isMove = false;
         isShakingCanvas = false;
+
+        num_of_item1 = 1;
+        num_of_item2 = 1;
+
+        item1.SetPosition(0, 550);
+        item2.SetPosition(150, 550);
     }
 
     public int getMulCoefficient(){
@@ -101,18 +119,20 @@ public class TileMap {
     public void draw(Canvas canvas) {
         for(Tile tile : tiles)
             tile.draw(canvas);
+        item1.Draw(canvas);
+        item2.Draw(canvas);
     }
 
     public void AddTile(int x, int y) {
         int i = (int) (Math.random() * 10);
 
-        if(i < 4){
+        if(i < 5){
             tiles.add(new SumTile(x, y, getSumCoefficient()));
         }
-        else if(i < 6){
+        else if(i < 8){
             tiles.add(new SubTile(x, y, getSumCoefficient()));
         }
-        else if(i<8){
+        else if(i<9){
             tiles.add(new MulTile(x, y, getMulCoefficient()));
         }
         else if(i<10){
@@ -121,7 +141,7 @@ public class TileMap {
     }
 
     public void AddTile(int x, int y, boolean isPlayer) {
-        tiles.add(pl = new PlayerTile(x, y, getMulCoefficient()));
+        tiles.add(pl = new PlayerTile(x, y, 0));
 
     }
 
@@ -139,6 +159,16 @@ public class TileMap {
         else if (event.getAction() == MotionEvent.ACTION_UP) {
             upX = event.getX();
             upY = event.getY();
+
+            Rect item1 = new Rect(0, 550, 150, 700);
+            Rect item2 = new Rect(0 + 150, 550, 150 + 150, 700 );
+
+            if (item1.left < upX && upX < item1.right && item1.top < upY && upY < item1.bottom) {
+                Item1();
+            }
+            if (item2.left < upX && upX < item2.right && item2.top < upY && upY < item2.bottom) {
+                Item2();
+            }
 
             if(Math.abs(upY - downY) < 100 && Math.abs(upX - downX) > 100) {
                 // 오른쪽 슬라이드
@@ -264,9 +294,7 @@ public class TileMap {
         return false;
     }
 
-    public void Update(){
-        nowTime = System.nanoTime();
-
+    public void UpdateTile(){
         Iterator<Tile> t = tiles.iterator();
         while (t.hasNext()){
             Tile tile = t.next();
@@ -278,12 +306,31 @@ public class TileMap {
                 isMove = false;
             }
         }
+    }
 
+    public void UpdateTime(){
+        nowTime = System.nanoTime();
         if(!isMove && (nowTime - readyTime) / 1000000000 > 3)
         {
             AppManager.getInstance().getM_dungeon().turn -= 1;
             readyTime = System.nanoTime();
             isShakingCanvas = true;
+        }
+    }
+
+    public void Item1(){
+        if(num_of_item1 > 0)
+        {
+            AppManager.getInstance().m_dungeon.turn += 3;
+            num_of_item1--;
+        }
+    }
+
+    public void Item2(){
+        if(num_of_item2 > 0){
+            reset();
+            num_of_item2--;
+            readyTime = nowTime;
         }
     }
 

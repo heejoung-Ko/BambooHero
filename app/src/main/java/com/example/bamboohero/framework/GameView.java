@@ -11,7 +11,9 @@ import android.view.SurfaceView;
 
 import com.example.bamboohero.Game.AppManager;
 import com.example.bamboohero.Game.DungeonState;
-import com.example.bamboohero.Game.LobbyState;
+import com.example.bamboohero.Game.TitleState;
+
+import java.lang.reflect.Type;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     private IState m_state;
@@ -29,11 +31,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         AppManager.getInstance().setFont2(tf2);
 
         getHolder().addCallback(this);
-        if(AppManager.getInstance().state_number == AppManager.MAIN_STATE)
-            ChageGameState(new LobbyState());
-        else if(AppManager.getInstance().state_number == AppManager.DUNGEON_STATE)
-            ChageGameState(new DungeonState());
 
+        ChageGameState(new TitleState());
 
         m_thread = new GameViewThread(getHolder(), this);
 
