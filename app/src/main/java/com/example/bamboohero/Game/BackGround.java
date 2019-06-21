@@ -13,6 +13,7 @@ public class BackGround extends GraphicObject {
 
     public BackGround(int stage_type){
         super(null);
+        super.SetPosition(0, 100);
         m_bitmap = AppManager.getInstance().getBitmap(R.drawable.map_cave);
     }
 

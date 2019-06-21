@@ -15,28 +15,4 @@
     tools:context="com.example.bamboohero.framework.MainActivity">
 
 
-
-    <ImageView
-
-        android:layout_width="@dimen/imageWidth"
-
-        android:layout_height="@dimen/imageHeight"
-
-        android:background="@color/colorAccent" />
-
-
-
-    <TextView
-
-        android:layout_width="wrap_content"
-
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="@dimen/topMargin"
-
-        android:text="Dimens-!!"
-
-        android:textSize="@dimen/textSize" />
-
-
 </LinearLayout>

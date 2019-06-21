@@ -81,8 +81,8 @@ public class Tile{
         posX_inTileMap = changeX;
         posY_inTileMap = changeY;
 
-        int tx = posX_inTileMap * 320 + 60;
-        int ty = posY_inTileMap * 320 + 640;
+        int tx = posX_inTileMap * 320 + 60 ;
+        int ty = posY_inTileMap * 320 + 640 + 100;
         colorTile.SetPosition(tx, ty);
     }
 

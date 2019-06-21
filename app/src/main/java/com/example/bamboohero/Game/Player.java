@@ -11,6 +11,8 @@ public class Player extends SpriteAnimation {
     int pl_local; //현재위치
     int sprite_type;
 
+    int coin;
+
     static final int STATE_NOMAL = 0;
     static final int STATE_SMILE = 1;
     static final int STATE_GOOD = 2;
@@ -20,6 +22,7 @@ public class Player extends SpriteAnimation {
         super(AppManager.getInstance().getBitmap(R.drawable.char_gom));
         this.InitSpriteData(453,1112,2,2);
         atk = 0;
+        coin = 0;
         Log.i("플레이어", "그려짐");
     }
 

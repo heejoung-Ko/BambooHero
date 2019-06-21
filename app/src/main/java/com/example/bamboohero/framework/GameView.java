@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 
 import com.example.bamboohero.Game.AppManager;
 import com.example.bamboohero.Game.DungeonState;
+import com.example.bamboohero.Game.TitleState;
 
 import java.lang.reflect.Type;
 
@@ -31,7 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
         getHolder().addCallback(this);
 
-        ChageGameState(new DungeonState());
+        ChageGameState(new TitleState());
 
         m_thread = new GameViewThread(getHolder(), this);
 
