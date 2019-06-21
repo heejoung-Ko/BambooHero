@@ -63,8 +63,11 @@ public class DungeonState implements IState {
     public Paint strokePaint = null;
     public Paint textPaint = null;
 
+    GraphicObject over = new GraphicObject(AppManager.getInstance().getBitmap(R.drawable.gameover));
+
     @Override
     public void Init() {
+
         stage_level = 1;
 
         damage.SetPosition(0, 100);
@@ -95,6 +98,8 @@ public class DungeonState implements IState {
         sp_CharacterAttack.InitSpriteData(155*3,371*3,16,12);
         sp_CharacterAttack.SetPosition(0,100);
         sp_CharacterAttack.setM_ready(false);
+
+        over.SetPosition(0,800);
 
         textPaint = new Paint();
         textPaint.setTypeface(AppManager.getInstance().getFont2());
@@ -152,6 +157,10 @@ public class DungeonState implements IState {
         if(isStageClear)
         {
             sp_StageClear.Update(GameTime);
+            return;
+        }
+        if(isMonsterAttack)
+        {
             return;
         }
 
@@ -263,6 +272,10 @@ public class DungeonState implements IState {
         {
             sp_StageClear.Draw(canvas);
         }
+        if(isMonsterAttack)
+        {
+            over.Draw(canvas);
+        }
     }
 
     @Override
@@ -281,6 +294,11 @@ public class DungeonState implements IState {
     public boolean onTouchEvent(MotionEvent event) {
         if(stage_level % 10 == shopStage){
             shop.onKeyDown(event);
+            return false;
+        }
+        if(isMonsterAttack && event.getAction() == MotionEvent.ACTION_UP)
+        {
+            AppManager.getInstance().getGameView().ChageGameState(new TitleState());
         }
         if(isStageClear && event.getAction() == MotionEvent.ACTION_UP)
         {
